@@ -379,6 +379,7 @@ public class MainActivity extends Activity implements
             @Override
             public void onClick(View v) {
                 final CharSequence[] labels = rangebar.getTickTopLabels();
+                rangebar.setLeftIndex(0, 9);
 
                 if (labels != null) {
                     mLabels = labels;
