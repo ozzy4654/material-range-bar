@@ -1,6 +1,5 @@
 package com.appyvet.rangebarsample
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,14 +12,14 @@ import android.widget.CheckBox
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import com.appyvet.materialrangebar.RangeBar
 import com.appyvet.materialrangebar.RangeBar.OnRangeBarChangeListener
-import com.appyvet.rangebarsample.MainActivity
 import com.appyvet.rangebarsample.colorpicker.ColorPickerDialog
 import com.appyvet.rangebarsample.colorpicker.ColorPickerDialog.OnColorSelectedListener
 import com.appyvet.rangebarsample.colorpicker.Utils
 
-class MainActivity : Activity(), OnColorSelectedListener {
+class MainActivity : FragmentActivity(), OnColorSelectedListener {
     // Sets variables to save the colors of each attribute
     private var mBarColor = 0
     private var mConnectingLineColor = 0
@@ -252,7 +251,6 @@ class MainActivity : Activity(), OnColorSelectedListener {
             private var mLabels: Array<CharSequence> = arrayOf()
             override fun onClick(v: View) {
                 val labels = rangebar?.tickTopLabels
-                rangebar?.setThumbsIndex(0, 9)
                 if (labels != null) {
                     mLabels = labels
                     rangebar?.tickTopLabels = null
@@ -364,7 +362,7 @@ class MainActivity : Activity(), OnColorSelectedListener {
         val colorPicker: ColorPickerDialog = ColorPickerDialog.Companion.newInstance(R.string.colorPickerTitle, Utils.ColorUtils.colorChoice(this),
                 initialColor, 4, ColorPickerDialog.Companion.SIZE_SMALL, component)
         colorPicker.setOnColorSelectedListener(this)
-//        colorPicker.show(fragmentManager, "color")
+        colorPicker.show(supportFragmentManager, "color")
     }
 
     companion object {

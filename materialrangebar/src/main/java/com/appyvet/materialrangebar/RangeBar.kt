@@ -122,8 +122,11 @@ class RangeBar : View {
         return leftIndex
     }
 
+    fun setLeftIndex(index: Int) {
+        leftIndex = index
+    }
 
-    fun setThumbsIndex(leftIndex: Int, rightIndex : Int) {
+    fun setThumbsIndex(leftIndex: Int, rightIndex: Int) {
         if (isRangeBar) {
             mLeftThumb!!.x = marginLeft + leftIndex / (tickCount - 1).toFloat() * barLength
             mLeftThumb!!.setXValue(getPinValue(leftIndex))
@@ -140,6 +143,14 @@ class RangeBar : View {
      * @return the 0-based index of the right pin
      */
     private var rightIndex = 0
+
+    fun getRightIndex(): Int {
+        return rightIndex
+    }
+
+    fun setRightIndex(index: Int) {
+        rightIndex = index
+    }
 
     /**
      * Gets the type of the bar.
@@ -183,8 +194,7 @@ class RangeBar : View {
     private var mLeftBoundX = 0f
     private var mRightBoundX = 0f
 
-    // Constructors ////////////////////////////////////////////////////////////
-    constructor(context: Context?) : super(context) {}
+    constructor(context: Context?) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         rangeBarInit(context, attrs)
     }
@@ -193,7 +203,6 @@ class RangeBar : View {
         rangeBarInit(context, attrs)
     }
 
-    // View Methods ////////////////////////////////////////////////////////////
     public override fun onSaveInstanceState(): Parcelable? {
         val bundle = Bundle()
         bundle.putParcelable("instanceState", super.onSaveInstanceState())
@@ -293,21 +302,29 @@ class RangeBar : View {
         val measureHeight = MeasureSpec.getSize(heightMeasureSpec)
 
         // The RangeBar width should be as large as possible.
-        width = if (measureWidthMode == MeasureSpec.AT_MOST) {
-            measureWidth
-        } else if (measureWidthMode == MeasureSpec.EXACTLY) {
-            measureWidth
-        } else {
-            mDefaultWidth
+        width = when (measureWidthMode) {
+            MeasureSpec.AT_MOST -> {
+                measureWidth
+            }
+            MeasureSpec.EXACTLY -> {
+                measureWidth
+            }
+            else -> {
+                mDefaultWidth
+            }
         }
 
         // The RangeBar height should be as small as possible.
-        height = if (measureHeightMode == MeasureSpec.AT_MOST) {
-            Math.min(mDefaultHeight, measureHeight)
-        } else if (measureHeightMode == MeasureSpec.EXACTLY) {
-            measureHeight
-        } else {
-            mDefaultHeight
+        height = when (measureHeightMode) {
+            MeasureSpec.AT_MOST -> {
+                Math.min(mDefaultHeight, measureHeight)
+            }
+            MeasureSpec.EXACTLY -> {
+                measureHeight
+            }
+            else -> {
+                mDefaultHeight
+            }
         }
         setMeasuredDimension(width, height)
     }
@@ -364,8 +381,7 @@ class RangeBar : View {
 
         // Create the line connecting the two thumbs.
         mConnectingLine = mConnectingLineColors?.let {
-            ConnectingLine(yPos, mConnectingLineWeight,
-                    it)
+            ConnectingLine(yPos, mConnectingLineWeight, it)
         }
     }
 
@@ -379,6 +395,7 @@ class RangeBar : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         mBar!!.draw(canvas)
+
         if (isRangeBar) {
             mConnectingLine!!.draw(canvas, mLeftThumb!!, mRightThumb!!)
             if (drawTicks) {
@@ -386,7 +403,7 @@ class RangeBar : View {
             }
             mLeftThumb!!.draw(canvas)
         } else {
-            mConnectingLine!!.draw(canvas, marginLeft!!, mRightThumb!!)
+            mConnectingLine!!.draw(canvas, marginLeft, mRightThumb!!)
             if (drawTicks) {
                 mBar!!.drawTicks(canvas, mExpandedPinRadius, mRightThumb!!)
             }
@@ -433,8 +450,8 @@ class RangeBar : View {
             MotionEvent.ACTION_MOVE -> {
                 val curX = event.x
                 val curY = event.y
-                mDiffX += Math.abs(curX - mLastX).toInt()
-                mDiffY += Math.abs(curY - mLastY).toInt()
+                mDiffX += abs(curX - mLastX).toInt()
+                mDiffY += abs(curY - mLastY).toInt()
                 mLastX = curX
                 mLastY = curY
                 if (!mDragging) {
@@ -682,7 +699,18 @@ class RangeBar : View {
      */
     fun setThumbBoundaryColor(thumbBoundaryColor: Int) {
         mThumbBoundaryColor = thumbBoundaryColor
-        createPins()
+
+        if (isRangeBar && mLeftThumb != null) {
+            mLeftThumb?.changeBoundaryTint(thumbBoundaryColor)
+        } else {
+            createPins()
+        }
+
+        if (mRightThumb != null) {
+            mRightThumb?.changeBoundaryTint(thumbBoundaryColor)
+        } else {
+            createPins()
+        }
     }
 
     /**
@@ -1295,15 +1323,17 @@ class RangeBar : View {
         if (isEnabled) {
             expandedPinRadius = mExpandedPinRadius / mDisplayMetrices.density
         }
-        if (isRangeBar) {
+        if (isRangeBar && mLeftThumb == null) {
             mLeftThumb = PinView(ctx)
             mLeftThumb!!.init(ctx, yPos, expandedPinRadius, mPinColor, mTextColor, mThumbSize, mThumbColorLeft, mThumbBoundaryColor, mThumbBoundarySize,
                     mMinPinFont, mMaxPinFont, mArePinsTemporary)
         }
-        mRightThumb = PinView(ctx)
-        mRightThumb!!
-                .init(ctx, yPos, expandedPinRadius, mPinColor, mTextColor, mThumbSize, mThumbColorRight, mThumbBoundaryColor, mThumbBoundarySize
-                        , mMinPinFont, mMaxPinFont, mArePinsTemporary)
+        if (mRightThumb == null) {
+            mRightThumb = PinView(ctx)
+            mRightThumb!!.init(ctx, yPos, expandedPinRadius, mPinColor, mTextColor, mThumbSize, mThumbColorRight, mThumbBoundaryColor, mThumbBoundarySize,
+                    mMinPinFont, mMaxPinFont, mArePinsTemporary)
+
+        }
         val marginLeft = marginLeft
         val barLength = barLength
 
@@ -1559,7 +1589,7 @@ class RangeBar : View {
      */
     private fun releasePin(thumb: PinView) {
         val nearestTickX = mBar!!.getNearestTickCoordinate(thumb)
-        thumb!!.x = nearestTickX
+        thumb.x = nearestTickX
         val tickIndex = mBar!!.getNearestTickIndex(thumb)
         thumb.setXValue(getPinValue(tickIndex))
         if (mArePinsTemporary) {

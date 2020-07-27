@@ -21,13 +21,13 @@ import java.util.*
 /**
  * Class representing the blue connecting line between the two thumbs.
  */
-class ConnectingLine(y: Float, connectingLineWeight: Float,
-                     connectingLineColors: ArrayList<Int>) {
-    // Member Variables ////////////////////////////////////////////////////////
+class ConnectingLine(y: Float, connectingLineWeight: Float, connectingLineColors: ArrayList<Int>) {
+
     private val colors: IntArray
     private val positions: FloatArray
     private val paint = Paint()
     private val mY: Float
+
     private fun getLinearGradient(startX: Float, endX: Float, height: Float): LinearGradient {
         return LinearGradient(startX, height, endX, height,
                 colors,
@@ -58,7 +58,7 @@ class ConnectingLine(y: Float, connectingLineWeight: Float,
         paint.shader = getLinearGradient(0f, canvas.width.toFloat(), mY)
         canvas.drawLine(leftMargin, mY, rightThumb.x, mY, paint)
     }
-    // Constructor /////////////////////////////////////////////////////////////
+
     /**
      * Constructor for connecting line
      *

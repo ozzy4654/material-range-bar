@@ -27,9 +27,7 @@ import androidx.core.graphics.drawable.DrawableCompat
  * Represents a thumb in the RangeBar slider. This is the handle for the slider
  * that is pressed and slid.
  */
-class PinView  // Constructors ////////////////////////////////////////////////////////////
-(context: Context?) : View(context) {
-    // Member Variables ////////////////////////////////////////////////////////
+class PinView(context: Context?) : View(context) {
     // Radius (in pixels) of the touch area of the thumb.
     private var mTargetRadiusPx = 0f
 
@@ -55,7 +53,7 @@ class PinView  // Constructors /////////////////////////////////////////////////
     private var mRes: Resources? = null
     private var mDensity = 0f
     private var mCirclePaint: Paint? = null
-    private var mCircleBoundaryPaint: Paint? = null
+    var mCircleBoundaryPaint: Paint? = null
     private var mCircleRadiusPx = 0f
     private var mCircleBoundaryRadiusPx = 0f
     private var formatter: IRangeBarFormatter? = null
@@ -136,6 +134,10 @@ class PinView  // Constructors /////////////////////////////////////////////////
         mTargetRadiusPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, targetRadius.toFloat(),
                 mRes!!.displayMetrics)
         mY = y
+    }
+
+    fun changeBoundaryTint(paintColor : Int) {
+        mCircleBoundaryPaint?.color = paintColor
     }
 
     /**
