@@ -2,7 +2,9 @@
 
 MaterialRangeBar
 =======
-MaterialRangeBar is a fork from https://github.com/edmodo/range-bar that adds some basic material styling, as well as start and end values, values as floats and some other things. It is aiming to mimic this:
+****NOTE****. **** Using version 1.5.2 only works for Android 7.0+ aka API 24+ +*****
+
+MaterialRangeBar is a fork from https://github.com/oli107/material-range-bar that is 100% Kotlin based and supports APIs 24+. Also brings some new functionality to rangerBar class. You can now get/set the left/right indexes programmically. As well as, a new helper function for PinViews class. You can now change the color without recreating the whole PinView if its not null, i.e. ThumbSliders. Allows for a smooth slide UX if changing colors of the boundary based on value. As well as some other refindments. Also Refactored the Sample App. 
 
 http://www.google.com/design/spec/components/sliders.html
 
@@ -14,6 +16,9 @@ Supported on API Level 12 and above for animations.
 
 ### Change Log
 ```
+1.5.2 - Corrected Pinview bug, now it no longer keeps recreating sliderThumbs if you want to change the color. If its null it will create the sliderThumb. Also added helper functions for Pinview "changeBoundaryTint(paintColor : Int)" so now the RangeBar class can just change the boundary tint instead of creating a whole new View. Also added Helper methods into RangeBar gets/sets for left/right index as well as "setThumbsIndex(leftIndex: Int, rightIndex: Int)"  
+1.5.1 - Added Added functions to reset the rangebar. i.e using a clear bar. 
+1.5.0 - Converted to Kotlin and increased build tools for Android 11 and removed support for Android 6.0(Api23) and below. 
 1.4.8 - Added mrb_minThumbDistance for specifying distances between 2 thumbs. All the selector properties are renamed to thumb.
 1.4.7 - Fixed selector boundary cut-off issue
 1.4.6 - Added tick colors, Added Left,Right and Default Selector Color. Added Touch Started /Touch Ended events to Rangebar. Fixed rangebar so that it behaves correctly inside scrollview. Also fixed Selected Tick label color issue.
@@ -249,7 +254,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.appyvet:materialrangebar:1.4.8'
+    implementation 'com.github.ozzy4654:material-range-bar:1.5.2'
 }
 ```
 
