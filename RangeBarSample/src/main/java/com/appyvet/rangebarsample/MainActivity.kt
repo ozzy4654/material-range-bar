@@ -252,7 +252,7 @@ class MainActivity : Activity(), OnColorSelectedListener {
             private var mLabels: Array<CharSequence> = arrayOf()
             override fun onClick(v: View) {
                 val labels = rangebar?.tickTopLabels
-                rangebar?.setLeftIndex(0, 9)
+                rangebar?.setThumbsIndex(0, 9)
                 if (labels != null) {
                     mLabels = labels
                     rangebar?.tickTopLabels = null
