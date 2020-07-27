@@ -117,17 +117,13 @@ class RangeBar : View {
      * @return the 0-based index of the left pin
      */
     private var leftIndex: Int = 0
-//        get() = mLeft
-//    get() = mLeft
-//    private set
-
 
     fun getLeftIndex(): Int {
         return leftIndex
     }
 
 
-    fun setLeftIndex(leftIndex: Int, rightIndex : Int) {
+    fun setThumbsIndex(leftIndex: Int, rightIndex : Int) {
         if (isRangeBar) {
             mLeftThumb!!.x = marginLeft + leftIndex / (tickCount - 1).toFloat() * barLength
             mLeftThumb!!.setXValue(getPinValue(leftIndex))
@@ -136,13 +132,6 @@ class RangeBar : View {
         mRightThumb!!.x = marginLeft + rightIndex / (tickCount - 1).toFloat() * barLength
         mRightThumb!!.setXValue(getPinValue(rightIndex))
 
-    }
-
-
-
-
-    fun setRightIndex(index: Int) {
-        rightIndex = index
     }
 
     /**
