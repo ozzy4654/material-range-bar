@@ -30,7 +30,7 @@ import com.appyvet.rangebarsample.colorpicker.ColorPickerSwatch.OnSwatchColorSel
  * A dialog which takes in as input an array of colors and creates a palette allowing the user to
  * select a specific color swatch, which invokes a listener.
  */
-class ColorPickerDialog : DialogFragment(), OnSwatchColorSelectedListener {
+open class ColorPickerDialog : androidx.fragment.app.DialogFragment(), OnSwatchColorSelectedListener {
     /**
      * Interface for a callback when a color square is selected.
      */
@@ -44,7 +44,7 @@ class ColorPickerDialog : DialogFragment(), OnSwatchColorSelectedListener {
     protected var mAlertDialog: AlertDialog? = null
     protected var mTitleResId = R.string.color_picker_default_title
     var colors: IntArray? = null
-        protected set
+        private set
     protected var mSelectedColor = 0
     protected var mColumns = 0
     protected var mSize = 0
@@ -73,9 +73,9 @@ class ColorPickerDialog : DialogFragment(), OnSwatchColorSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            mTitleResId = arguments.getInt(KEY_TITLE_ID)
-            mColumns = arguments.getInt(KEY_COLUMNS)
-            mSize = arguments.getInt(KEY_SIZE)
+            mTitleResId = arguments!!.getInt(KEY_TITLE_ID)
+            mColumns = arguments!!.getInt(KEY_COLUMNS)
+            mSize = arguments!!.getInt(KEY_SIZE)
         }
         if (savedInstanceState != null) {
             colors = savedInstanceState.getIntArray(KEY_COLORS)
@@ -83,7 +83,7 @@ class ColorPickerDialog : DialogFragment(), OnSwatchColorSelectedListener {
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle): Dialog {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val activity = activity
         val view = LayoutInflater.from(getActivity()).inflate(R.layout.color_picker_dialog, null)
         mProgress = view.findViewById<View>(android.R.id.progress) as ProgressBar
@@ -96,7 +96,7 @@ class ColorPickerDialog : DialogFragment(), OnSwatchColorSelectedListener {
                 .setTitle(mTitleResId)
                 .setView(view)
                 .create()
-        return mAlertDialog
+        return mAlertDialog!!
     }
 
     override fun onSwatchColorSelected(color: Int) {
