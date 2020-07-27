@@ -1,5 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.ozzy4654'
+
 /**
  In order to push the library to Bintray we need to execute the
  following gradle commands in the given sequence.
