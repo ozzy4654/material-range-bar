@@ -24,8 +24,8 @@ ext {
 
     libraryDescription = 'MaterialRangeBar is a fork from https://github.com/edmodo/range-bar that adds some basic material styling, as well as start and end values, as floats and some other things. It is similar to an enhanced SeekBar widget, though it doesn\'t make use of the SeekBar. It provides for the selection of a range of values as well as for a single value. The selectable range values are discrete values designated by tick marks; the pin (handle) will snap to the nearest tick mark.'
 
-    siteUrl = 'https://github.com/oli107/material-range-bar'
-    gitUrl = 'https://github.com/oli107/material-range-bar.git'
+    siteUrl = 'https://github.com/ozzy4654/material-range-bar'
+    gitUrl = 'https://github.com/ozzy4654/material-range-bar.git'
 
     libraryVersion = '1.5.0'
 
@@ -68,6 +68,11 @@ dependencies {
  Run this code to create pom-default.xml file in build directory
  */
 task createPom {
+
+
+    tasks.withType(Javadoc).all {
+        enabled = false
+    }
     doLast {
         pom {
             project {
